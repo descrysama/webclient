@@ -25,6 +25,7 @@ const Suppliers = () => {
             setLoading(true)
             runSupplierScript().then((res) => {
                 updateState()
+                console.log(res)
                 if (res.status == 200) {
                     show("success", "Success", res.message)
                     setToggle(true)
