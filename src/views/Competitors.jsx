@@ -52,11 +52,13 @@ const Competitors = () => {
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
       <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
-      <div className='flex m-4'>
-        <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
-        <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={() => onSearch()}/>
-        {query ? <Button style={{margin: '3px'}}  icon="pi pi-undo" iconPos="right" onClick={() => clearSearch()}/> : null}
-      </div>
+      <form onSubmit={() => onSearch()}>
+        <div className='flex m-4'>
+          <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
+          <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={() => onSearch()}/>
+          {query ? <Button style={{margin: '3px'}}  icon="pi pi-undo" iconPos="right" onClick={() => clearSearch()}/> : null}
+        </div>
+      </form>
       <div className='flex justify-center mt-5 w-full'>
           <UrlTable sku={sku} setSkus={setSkus}/>
       </div>
