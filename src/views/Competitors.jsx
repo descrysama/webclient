@@ -30,7 +30,8 @@ const Competitors = () => {
     })
   }
 
-  const onSearch = () => {
+  const onSearch = (e) => {
+    e.preventDefault()
     SearchSku(query).then((res) => {
       if(res) {
         setSkus(res)
@@ -52,10 +53,10 @@ const Competitors = () => {
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
       <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
-      <form onSubmit={() => onSearch()}>
+      <form onSubmit={(e) => onSearch(e)}>
         <div className='flex m-4'>
           <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
-          <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={() => onSearch()}/>
+          <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={(e) => onSearch(e)}/>
           {query ? <Button style={{margin: '3px'}}  icon="pi pi-undo" iconPos="right" onClick={() => clearSearch()}/> : null}
         </div>
       </form>
