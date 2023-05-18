@@ -48,11 +48,11 @@ const UrlTable = ({ sku, setSkus }) => {
     return (
         <>
             <Toast ref={toast} />
-            <DataTable value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
-                <Column field="id" header="id / clé"></Column>
-                <Column field="name" header="Référence"></Column>
-                <Column header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
-                <Column body={actionTemplate} headerClassName="w-5rem" />
+            <DataTable removableSort value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
+                <Column sortable field="id" header="id / clé"></Column>
+                <Column sortable field="name" header="Référence"></Column>
+                <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
+                <Column sortable body={actionTemplate} headerClassName="w-5rem" />
             </DataTable>
             <Dialog header="Supprimer" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
                 <div className='flex flex-col justify-center items-start gap-2'>
