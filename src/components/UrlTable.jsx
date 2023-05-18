@@ -6,6 +6,7 @@ import { Toast } from 'primereact/toast';
 
 
 import { deleteSku } from '../services/skuService';
+import { Link } from 'react-router-dom';
 
 const UrlTable = ({sku, setSkus}) => {
 
@@ -28,7 +29,7 @@ const UrlTable = ({sku, setSkus}) => {
         return (
             <div className="flex flex-wrap gap-2">
                 <Button type="button" icon="pi pi-trash" severity="danger" rounded onClick={() => onDelete(item.id)}></Button>
-                <Button type="button" icon="pi pi-pencil" severity="success" rounded></Button>
+                <Link to={"/sku/edit/" + item.id}><Button type="button" icon="pi pi-pencil" severity="success" rounded></Button></Link>
             </div>
             
         );
@@ -45,7 +46,7 @@ const UrlTable = ({sku, setSkus}) => {
             <DataTable value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
                     <Column field="id" header="id / clé"></Column>
                     <Column field="name" header="Référence"></Column>
-                    <Column header="Nombre d'urls" body={(item) => <td class="" role="cell">{item.urls ? item.urls.length : null}</td>} headerClassName="w-5rem" />
+                    <Column header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
                     <Column body={actionTemplate} headerClassName="w-5rem" />
             </DataTable>
         </>

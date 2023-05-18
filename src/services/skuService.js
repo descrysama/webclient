@@ -1,5 +1,32 @@
 
 
+export const getSingleSku = async(id) => {
+  const response = await fetch(process.env.REACT_APP_API_URL+ '/sku/get/' + id)
+  const result = await response.json()
+  return result
+}
+
+export const updateSku = async(id, body) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/update/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: body.name , urls: body.urls})
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      throw new Error('Failed to update SKU');
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 export const fetchAllSku = async() => {
     const data = await fetch(process.env.REACT_APP_API_URL+ '/sku/get')
     const result = await data.json()
