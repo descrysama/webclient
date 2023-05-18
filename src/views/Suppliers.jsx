@@ -33,14 +33,17 @@ const Suppliers = () => {
 
 
     return (
-        <div className='w-full flex flex-col m-4 justify-center items-center gap-2'>
+        <>
             <Toast ref={toast} />
-            <div className='flex gap-2'>
-                <Button label="Lancer le script fournisseur" icon="pi pi-check" loading={loading} onClick={() => runSupplierRequest()} />
-                <a href="http://79.137.87.52/final_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
-            </div>
+            <div className='w-full flex flex-col m-4 justify-center items-center gap-2'>
+                
+                <div className='flex gap-2'>
+                    <Button label="Lancer le script fournisseur" icon="pi pi-check" loading={loading} onClick={() => runSupplierRequest()} />
+                    <a href="http://79.137.87.52/final_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
+                </div>
 
-        </div>
+            </div>
+        </>
     )
 }
 
