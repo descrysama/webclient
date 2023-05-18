@@ -6,27 +6,29 @@ import { Toast } from 'primereact/toast';
 const Suppliers = () => {
 
     const toast = useRef(null);
-    let toggle = true
-    let loading = false
+    const [toggle, setToggle] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const show = (severity, summary, message) => {
         toast.current.show({ severity: severity, summary: summary, detail: message });
     };
 
-    // useEffect(() => {
-    //     setToggle(true)
-    //     setLoading(false)
-    // }, [show])
+
+    const updateState= () => {
+        setToggle(true)
+        setLoading(false)
+    }
 
     const runSupplierRequest = () => {
         if (toggle) {
-            toggle = true
-            loading = true
+            setToggle(false)
+            setLoading(true)
             runSupplierScript().then((res) => {
+                updateState
                 if (res.status == 200) {
                     show("success", "Success", res.message)
-                    toggle = true
-                    loading = false
+                    setToggle(true)
+                    setLoading(false)
                 }
             })
         }
