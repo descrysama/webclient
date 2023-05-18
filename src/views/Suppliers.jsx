@@ -6,7 +6,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { ToggleButton } from 'primereact/togglebutton';
-import { getMobilaxLinks, getUtopyaLinks } from '../services/suppliersService';
+import { getMobilaxLinks, getUtopyaLinks, deleteMobilaxLink, deleteUtopyaLink } from '../services/suppliersService';
 
 const Suppliers = () => {
 
@@ -27,12 +27,32 @@ const Suppliers = () => {
         getUtopyaLinks().then((res) => setUtopya(res))
     }
 
+    const onDelete = (id) => {
+        if (visible) {
+            deleteUtopyaLink(id).then((res) => {
+                if (res) {
+                    const newUtopyaArray = utopya.filter(url => url.id != id);
+                    setUtopya(newUtopyaArray)
+                    show("success", "Success", "URL supprimé avec succès")
+                }
+            })
+        } else {
+            deleteMobilaxLink(id).then((res) => {
+                if (res) {
+                    const newMobilaxArray = utopya.filter(url => url.id != id);
+                    setUtopya(newMobilaxArray)
+                    show("success", "Success", "URL supprimé avec succès")
+                }
+            })
+        }
+        fetchData()
+    }
+
     const actionTemplate = (item) => {
 
         return (
             <div className="flex flex-wrap gap-2">
-                <Button type="button" icon="pi pi-trash" severity="danger" rounded onClick={() => console.log("bouton")}></Button>
-                <Link to={"/sku/edit/" + item.id}><Button type="button" icon="pi pi-pencil" severity="success" rounded></Button></Link>
+                <Button type="button" icon="pi pi-trash" severity="danger" rounded onClick={() => onDelete(item.id)}></Button>
             </div>
 
         );
@@ -43,7 +63,7 @@ const Suppliers = () => {
     }, [])
 
 
-    const updateState= () => {
+    const updateState = () => {
         setToggle(true)
         setLoading(false)
     }
@@ -54,7 +74,11 @@ const Suppliers = () => {
             setLoading(true)
             runSupplierScript().then((res) => {
                 updateState()
-                show("success", "Success", res.message)
+                if(res.message) {
+                    show("success", "Success", res.message)
+                } else {
+                    show("error", "Error", res.error)
+                }
             })
         }
     }
@@ -65,24 +89,22 @@ const Suppliers = () => {
         <>
             <Toast ref={toast} />
             <div className='w-full flex flex-col m-4 justify-center items-center gap-2'>
-                
+
                 <div className='flex gap-2'>
                     <Button label="Lancer le script fournisseur" icon="pi pi-check" loading={loading} onClick={() => runSupplierRequest()} />
                     <a href="http://79.137.87.52/final_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
                 </div>
                 <div className='w-full flex flex-col justify-center items-center'>
-                    <ToggleButton onLabel="Utopya" offLabel="Mobilax" checked={visible} onChange={(e) => setVisible(!visible)} className='max-w-[40%]'/>
-                    <div className='flex flex-col w-full justify-center items-center'>
-                        <DataTable className={visible ? "visible w-[80%]": 'hidden'} removableSort value={mobilax} tableStyle={{ Width: '50rem' }}>
+                    <ToggleButton onLabel="Utopya" offLabel="Mobilax" checked={visible} onChange={(e) => setVisible(!visible)} className='max-w-[40%]' />
+                    <div className='flex flex-col w-full justify-center items-center mt-4'>
+                        <DataTable className={visible ? "visible w-[80%]" : 'hidden'} removableSort value={utopya} tableStyle={{ Width: '50rem' }}>
                             <Column sortable field="id" header="id / clé"></Column>
-                            <Column sortable field="name" header="Référence"></Column>
-                            <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
+                            <Column sortable field="url" header="URL" className='max-w-[400px] truncate'></Column>
                             <Column sortable body={actionTemplate} headerClassName="w-5rem" />
                         </DataTable>
-                        <DataTable className={!visible ? "visible w-[80%]": 'hidden'} removableSort value={utopya} tableStyle={{ Width: '50rem' }}>
+                        <DataTable className={!visible ? "visible w-[80%]" : 'hidden'} removableSort value={mobilax} tableStyle={{ Width: '50rem' }}>
                             <Column sortable field="id" header="id / clé"></Column>
-                            <Column sortable field="name" header="Référence"></Column>
-                            <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
+                            <Column sortable field="url" header="URL" className='max-w-[400px] truncate'></Column>
                             <Column sortable body={actionTemplate} headerClassName="w-5rem" />
                         </DataTable>
                     </div>
