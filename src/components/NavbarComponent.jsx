@@ -31,9 +31,7 @@ const NavbarComponent = () => {
   const start = <img alt="logo" src="https://mcs-parts.fr/img/logo-1675707804.jpg" height="40" className="mr-2"></img>;
 
   return (
-    <div className="card">
-      <Menubar model={items} start={start}/>
-    </div>
+    <Menubar model={items} start={start}/>
   )
 }
 
