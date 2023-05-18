@@ -2,7 +2,6 @@ import { Button } from 'primereact/button';
 import { runSupplierScript } from '../services/scriptService';
 import { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
-import "file-viewer";
 
 const Suppliers = () => {
 
@@ -19,7 +18,7 @@ const Suppliers = () => {
             setToggle(false)
             setLoading(true)
             runSupplierScript().then((res) => {
-                if (res) {
+                if (res.status == 200) {
                     show("success", "Success", res.message)
                     setToggle(true)
                     setLoading(false)
