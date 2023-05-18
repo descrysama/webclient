@@ -14,7 +14,7 @@ const Competitors = () => {
   const [query, setQuery] = useState("");
 
   const fetchData = () => {
-    fetchAllSku().then((res) => setSkus(res))
+    fetchAllSku().then((res) => setSkus(res.reverse()))
   }
 
   useEffect(() => {

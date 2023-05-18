@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { getSingleSku, updateSku } from '../../services/skuService'
 import { deleteLink } from '../../services/linksService';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
 
 const EditSku = () => {
 
+    const toast = useRef(null);
     let { SkuId } = useParams();
     const [sku, setSku] = useState({
         id: "",
@@ -14,12 +16,17 @@ const EditSku = () => {
         urls: []
     });
 
+    const show = (severity, summary, message) => {
+        toast.current.show({ severity: severity, summary: summary, detail: message });
+    };
+
     const deleteUrl = (index, id) => {
         const newUrls = sku.urls
         newUrls.splice(index, 1)
         if(id) {
             deleteLink(id).then((res) => {
                 if(res) {
+                    show("success", "Success", "Url supprimé avec succès")
                     setSku({...sku, urls: [...newUrls]})
                 }
             })
@@ -29,7 +36,12 @@ const EditSku = () => {
     }
 
     const saveSku = () => {
-        updateSku(SkuId, sku)
+        updateSku(SkuId, sku).then((res) => {
+            if(res) {
+                fetchData()
+                show("success", "Success", sku.name + " mis à jour avec succès")
+            }
+        })
     }
 
     const updateUrl = (url , index) => {
@@ -45,12 +57,17 @@ const EditSku = () => {
         setSku({...sku, urls: [...newUrls]})
     }
 
-    useEffect(() =>{
+    const fetchData = () => {
         getSingleSku(SkuId).then((res) => setSku(res))
+    }
+
+    useEffect(() =>{
+        fetchData()
     },[])
 
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
+        <Toast ref={toast} />
         <div className='gap-2 flex flex-col items-center'>
             <Link to="/competitors"><Button label="Retour" icon="pi pi-arrow-circle-left" severity="success" iconPos="left"/></Link>
             <Button label="Ajouter un url" icon="pi pi-plus" iconPos="right" onClick={() => addUrl()}/>
