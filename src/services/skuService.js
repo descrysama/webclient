@@ -6,6 +6,18 @@ export const fetchAllSku = async() => {
     return result
 }
 
+export const SearchSku = async(query) => {
+  const data = await fetch(process.env.REACT_APP_API_URL+ '/sku/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query: query })
+  })
+  const result = await data.json()
+  return result
+}
+
 export const createSku = async (name) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/create/`, {

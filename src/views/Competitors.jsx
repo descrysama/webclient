@@ -2,7 +2,7 @@ import React from 'react'
 import UrlTable from '../components/UrlTable'
 import { useEffect, useState } from 'react'
 import { Dialog } from 'primereact/dialog';
-import { fetchAllSku, deleteSku, createSku } from '../services/skuService';
+import { fetchAllSku, SearchSku, createSku } from '../services/skuService';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 
@@ -11,6 +11,7 @@ const Competitors = () => {
   const [sku, setSkus] = useState();
   const [visible, setVisible] = useState(false);
   const [skuName, setSkuName] = useState("");
+  const [query, setQuery] = useState("");
 
   const fetchData = () => {
     fetchAllSku().then((res) => setSkus(res))
@@ -28,14 +29,24 @@ const Competitors = () => {
       }
     })
   }
+
+  const onSearch = () => {
+    SearchSku(query).then((res) => {
+      setSkuName('')
+      if(res) {
+        setSkus(res)
+      }
+    })
+  }
+  
   
 
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
       <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
       <div className='flex m-4'>
-        <InputText value={skuName} onChange={(e) => setSkuName(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
-        <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={() => setVisible(false)}/>
+        <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
+        <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={() => onSearch()}/>
       </div>
       <div className='flex justify-center mt-5 w-full'>
           <UrlTable sku={sku} setSkus={setSkus}/>

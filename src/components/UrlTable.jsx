@@ -45,7 +45,7 @@ const UrlTable = ({sku, setSkus}) => {
             <DataTable value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
                     <Column field="id" header="id / clé"></Column>
                     <Column field="name" header="Référence"></Column>
-                    <Column header="Nombre d'urls" body={(item) => <td class="" role="cell">{item.urls.length}</td>} headerClassName="w-5rem" />
+                    <Column header="Nombre d'urls" body={(item) => <td class="" role="cell">{item.urls ? item.urls.length : null}</td>} headerClassName="w-5rem" />
                     <Column body={actionTemplate} headerClassName="w-5rem" />
             </DataTable>
         </>
