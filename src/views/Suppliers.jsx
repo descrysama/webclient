@@ -24,7 +24,6 @@ const Suppliers = () => {
     const [visible, setVisible] = useState(true);
     const [toggle, setToggle] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [checked, setChecked] = useState(false);
     const [mobilax, setMobilax] = useState([]);
     const [utopya, setUtopya] = useState([]);
     const [input, setInput] = useState([]);

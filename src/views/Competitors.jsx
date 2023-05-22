@@ -1,21 +1,30 @@
 import React from 'react'
 import UrlTable from '../components/UrlTable'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Dialog } from 'primereact/dialog';
 import { fetchAllSku, SearchSku, createSku } from '../services/skuService';
+import { runCompetitorScript } from '../services/scriptService';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
 
 const Competitors = () => {
 
   const [sku, setSkus] = useState();
+  const toast = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [toggle, setToggle] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [skuName, setSkuName] = useState("");
   const [query, setQuery] = useState("");
 
   const fetchData = () => {
     fetchAllSku().then((res) => setSkus(res.reverse()))
   }
+
+  const show = (severity, summary, message) => {
+      toast.current.show({ severity: severity, summary: summary, detail: message });
+  };
 
   useEffect(() => {
     fetchData()
@@ -47,12 +56,38 @@ const Competitors = () => {
       }
     })
   }
+
+  
+  const updateState = () => {
+      setToggle(true)
+      setLoading(false)
+  }
+
+  const runCompetitorRequest = () => {
+    if (toggle) {
+        setToggle(false)
+        setLoading(true)
+
+        runCompetitorScript().then((res) => {
+            updateState()
+            if (res.message) {
+                show("success", "Success", res.message)
+            } else {
+                show("error", "Error", res.error)
+            }
+        })
+    }
+}
   
   
 
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
-      <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
+      <Toast ref={toast} />
+      <div className='gap-2 flex'>
+        <Button label="Lancer le script concurent" icon="" iconPos="right" loading={loading} onClick={() => runCompetitorRequest()}/>
+        <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
+      </div>
       <form onSubmit={(e) => onSearch(e)}>
         <div className='flex m-4'>
           <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>

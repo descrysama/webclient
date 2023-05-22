@@ -4,3 +4,9 @@ export const runSupplierScript = async(id) => {
     const result = await response.json()
     return result
 }
+
+export const runCompetitorScript = async(id) => {
+    const response = await fetch(process.env.REACT_APP_API_URL+ '/script/runmain')
+    const result = await response.json()
+    return result
+}
