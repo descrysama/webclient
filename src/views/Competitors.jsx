@@ -32,6 +32,11 @@ const Competitors = () => {
 
   const onSubmit = () => {
     createSku(skuName).then((res) => {
+      if (res.message) {
+        show("success", "Success", res.message)
+      } else {
+          show("error", "Error", res.error)
+      }
       setSkuName('')
       if(res) {
         fetchData()
