@@ -34,8 +34,9 @@ const Competitors = () => {
     createSku(skuName).then((res) => {
       if (res.message) {
         show("success", "Success", res.message)
-      } else {
-          show("error", "Error", res.error)
+      }
+      if(res.error) {
+        show("error", "Error", res.error)
       }
       setSkuName('')
       if(res) {
