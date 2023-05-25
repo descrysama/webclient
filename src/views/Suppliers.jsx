@@ -120,7 +120,7 @@ const Suppliers = () => {
 
                 <div className='flex gap-2'>
                     <Button label="Lancer le script fournisseur" icon="pi pi-check" loading={loading} onClick={() => runSupplierRequest()} />
-                    <a href="http://79.137.87.52/final_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
+                    <a href="http://79.137.87.52/supplier_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
                 </div>
                 <div className='w-full flex flex-col justify-center items-center'>
                     <div className='flex gap-2'>

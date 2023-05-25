@@ -92,6 +92,7 @@ const Competitors = () => {
       <Toast ref={toast} />
       <div className='gap-2 flex'>
         <Button label="Lancer le script concurent" icon="" iconPos="right" loading={loading} onClick={() => runCompetitorRequest()}/>
+        <a href="http://79.137.87.52/final_output.xlsx" ><Button icon="pi pi-download" severity="success" aria-label="Search" label="Télécharger le fichier" /></a>
         <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
       </div>
       <form onSubmit={(e) => onSearch(e)}>
