@@ -77,9 +77,9 @@ const EditSku = () => {
         </div>
         <div className='m-2 w-1/2'>
             {sku.urls ? sku.urls.map((link, index) => (
-                <div key={index} className='flex gap-2'>
+                <div key={index} className='flex m-2'>
                     <InputText value={link.url ? link.url : ""} onChange={(e) => updateUrl(e.target.value, index)} placeholder='A2221-ECN' className='w-full m-4'/>
-                    <Button type="button" icon="pi pi-trash" severity="danger" rounded onClick={() => deleteUrl(index, link.id ? link.id : null)}></Button>
+                    <Button type="button" icon="pi pi-trash" severity="danger" className='m-2' rounded onClick={() => deleteUrl(index, link.id ? link.id : null)}></Button>
                 </div>
             )) : null}
         </div>
