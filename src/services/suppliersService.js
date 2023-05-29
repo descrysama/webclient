@@ -1,19 +1,24 @@
 
 export const getUtopyaLinks = async() => {
-    const response = await fetch(process.env.REACT_APP_API_URL+ '/utopya/get')
+    const response = await fetch(process.env.REACT_APP_API_URL+ '/utopya/get', {
+      credentials: 'include',
+    })
     const result = await response.json()
     return result
 }
 
 export const getMobilaxLinks = async() => {
-    const response = await fetch(process.env.REACT_APP_API_URL+ '/mobilax/get')
+    const response = await fetch(process.env.REACT_APP_API_URL+ '/mobilax/get', {
+      credentials: 'include',
+    })
     const result = await response.json()
     return result
 }
 
 export const deleteMobilaxLink = async(id) => {
     const response = await fetch(process.env.REACT_APP_API_URL+ '/mobilax/delete/'+ id, {
-        method: 'DELETE'
+      credentials: 'include',
+      method: 'DELETE'
     })
     const result = await response.json()
     return result
@@ -21,7 +26,8 @@ export const deleteMobilaxLink = async(id) => {
 
 export const deleteUtopyaLink = async(id) => {
     const response = await fetch(process.env.REACT_APP_API_URL+ '/utopya/delete/'+ id, {
-        method: 'DELETE'
+      credentials: 'include',
+      method: 'DELETE'
     })
     const result = await response.json()
     return result
@@ -32,6 +38,7 @@ export const createUtopyaLink = async(url) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/utopya/create/`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -53,6 +60,7 @@ export const createMobilaxLink = async(url) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/mobilax/create/`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           },

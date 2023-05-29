@@ -19,7 +19,7 @@ const Competitors = () => {
   const [query, setQuery] = useState("");
 
   const fetchData = () => {
-    fetchAllSku().then((res) => setSkus(res.reverse()))
+    fetchAllSku().then((res) => setSkus(res))
   }
 
   const show = (severity, summary, message) => {
@@ -103,7 +103,7 @@ const Competitors = () => {
         </div>
       </form>
       <div className='flex justify-center mt-5 w-full'>
-          <UrlTable sku={sku} setSkus={setSkus}/>
+          {sku ? <UrlTable sku={sku} setSkus={setSkus}/> : null}
       </div>
       <Dialog header="Ajouter un SKU" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
         <div className='flex flex-col justify-center items-start gap-2'>

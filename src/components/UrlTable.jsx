@@ -46,6 +46,7 @@ const UrlTable = ({ sku, setSkus }) => {
     };
 
     return (
+        sku ?
         <>
             <Toast ref={toast} />
             <DataTable removableSort value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
@@ -67,7 +68,7 @@ const UrlTable = ({ sku, setSkus }) => {
                     </div>
                 </div>
             </Dialog>
-        </>
+        </> : null
     )
 }
 

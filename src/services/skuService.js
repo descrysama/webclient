@@ -1,7 +1,9 @@
 
 
 export const getSingleSku = async(id) => {
-  const response = await fetch(process.env.REACT_APP_API_URL+ '/sku/get/' + id)
+  const response = await fetch(process.env.REACT_APP_API_URL+ '/sku/get/' + id, {
+    credentials: 'include',
+  })
   const result = await response.json()
   return result
 }
@@ -10,6 +12,7 @@ export const updateSku = async(id, body) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/update/${id}`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -28,7 +31,9 @@ export const updateSku = async(id, body) => {
 }
 
 export const fetchAllSku = async() => {
-    const data = await fetch(process.env.REACT_APP_API_URL+ '/sku/get')
+    const data = await fetch(process.env.REACT_APP_API_URL+ '/sku/get', {
+      credentials: 'include',
+    })
     const result = await data.json()
     return result
 }
@@ -36,6 +41,7 @@ export const fetchAllSku = async() => {
 export const SearchSku = async(query) => {
   const data = await fetch(process.env.REACT_APP_API_URL+ '/sku/search', {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -49,6 +55,7 @@ export const createSku = async (name) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/create/`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -70,6 +77,7 @@ export const deleteSku = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/delete/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
   
       if (response.ok) {

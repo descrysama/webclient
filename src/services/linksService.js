@@ -1,6 +1,7 @@
 export const deleteLink = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/links/delete/${id}`, {
+        credentials: 'include',
         method: 'DELETE',
       });
   
