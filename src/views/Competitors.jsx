@@ -44,7 +44,7 @@ const Competitors = () => {
     } else {
       newPrice = null
     }
-    createSku({name: skuName, prix_fournisseur: newPrice || null}).then((res) => {
+    createSku({name: skuName, prix_fournisseur: newPrice || null, internal_ref: newPrice ? 1 : 0}).then((res) => {
       if (res.message) {
         show("success", "Success", res.message)
       }
