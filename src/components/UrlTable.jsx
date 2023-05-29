@@ -30,11 +30,11 @@ const UrlTable = ({ sku, setSkus }) => {
 
         return (
             <div className="flex flex-wrap gap-2">
+                <Link to={"/sku/edit/" + item.id}><Button type="button" icon="pi pi-pencil" severity="success" rounded></Button></Link>
                 <Button type="button" icon="pi pi-trash" severity="danger" rounded onClick={() => {
                     setSkuToDelete(item.id)
                     setVisible(true)
                 }}></Button>
-                <Link to={"/sku/edit/" + item.id}><Button type="button" icon="pi pi-pencil" severity="success" rounded></Button></Link>
             </div>
 
         );
