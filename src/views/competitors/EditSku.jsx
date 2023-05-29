@@ -4,15 +4,19 @@ import { getSingleSku, updateSku } from '../../services/skuService'
 import { deleteLink } from '../../services/linksService';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 
 const EditSku = () => {
 
     const toast = useRef(null);
     let { SkuId } = useParams();
+    const [toggleInput, setToggleinput] = useState(false);
+    const [updatePrice, setUpdatePrice] = useState("");
     const [sku, setSku] = useState({
         id: "",
         name: "",
+        prix_fournisseur: updatePrice,
         urls: []
     });
 
@@ -58,7 +62,16 @@ const EditSku = () => {
     }
 
     const fetchData = () => {
-        getSingleSku(SkuId).then((res) => setSku(res))
+        getSingleSku(SkuId).then((res) => {
+            setUpdatePrice(res.prix_fournisseur)
+            setSku(res)
+        })
+    }
+
+    const updatePriceSubmit = (e) => {
+        e.preventDefault()
+        saveSku()
+        setToggleinput(false)
     }
 
     useEffect(() =>{
@@ -71,6 +84,11 @@ const EditSku = () => {
         <div className='gap-2 flex flex-col items-center'>
             <Link to="/competitors"><Button label="Retour" icon="pi pi-arrow-circle-left" severity="success" iconPos="left"/></Link>
             <Button label="Ajouter un url" icon="pi pi-plus" iconPos="right" onClick={() => addUrl()}/>
+            {toggleInput ? 
+            <form onSubmit={(e) => updatePriceSubmit(e)}>
+                <InputText value={sku.prix_fournisseur} onChange={(e) => setSku({...sku, prix_fournisseur: e.target.value})} placeholder='16.99' className='w-full m-4'/>
+            </form>
+            : <Tag onClick={() => setToggleinput(!toggleInput)} value={sku.prix_fournisseur +"€"} rounded></Tag>}
         </div>
         <div className='flex m-4'>
             <InputText value={sku.name} onChange={(e) => setSku({...sku, name: e.target.value})} placeholder='A2221-ECN' className='min-w-[280px]'/>

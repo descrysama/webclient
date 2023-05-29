@@ -16,10 +16,11 @@ const Competitors = () => {
   const [toggle, setToggle] = useState(true);
   const [loading, setLoading] = useState(false);
   const [skuName, setSkuName] = useState("");
+  const [prixFournisseur, setPrixFournisseur] = useState("");
   const [query, setQuery] = useState("");
 
   const fetchData = () => {
-    fetchAllSku().then((res) => setSkus(res))
+    fetchAllSku().then((res) => setSkus(res.reverse()))
   }
 
   const show = (severity, summary, message) => {
@@ -31,7 +32,7 @@ const Competitors = () => {
   }, [])
 
   const onSubmit = () => {
-    createSku(skuName).then((res) => {
+    createSku({name: skuName, prix_fournisseur: prixFournisseur || null}).then((res) => {
       if (res.message) {
         show("success", "Success", res.message)
       }
@@ -108,6 +109,7 @@ const Competitors = () => {
       <Dialog header="Ajouter un SKU" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
         <div className='flex flex-col justify-center items-start gap-2'>
           <InputText value={skuName} onChange={(e) => setSkuName(e.target.value)} placeholder='A2221-ECN'/>
+          <InputText value={prixFournisseur} onChange={(e) => setPrixFournisseur(e.target.value)} placeholder='74.44'/>
           <div>
             <Button style={{marginTop: '3px', marginRight: '5px'}} label="Annuler" icon="pi pi-times" iconPos="right" severity="danger" onClick={() => setVisible(false)}/>
             <Button style={{marginTop: '3px'}} label="Ajouter" icon="pi pi-pi-add" iconPos="right" severity="success" onClick={() => {

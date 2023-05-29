@@ -16,7 +16,7 @@ export const updateSku = async(id, body) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name: body.name , urls: body.urls})
+      body: JSON.stringify({ name: body.name , prix_fournisseur: body.prix_fournisseur, urls: body.urls})
     });
 
     if (response.ok) {
@@ -51,7 +51,7 @@ export const SearchSku = async(query) => {
   return result
 }
 
-export const createSku = async (name) => {
+export const createSku = async (body) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/sku/create/`, {
       method: 'POST',
@@ -59,7 +59,7 @@ export const createSku = async (name) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name: name })
+      body: JSON.stringify(body)
     });
 
     if (response.ok) {

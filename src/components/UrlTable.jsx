@@ -40,6 +40,11 @@ const UrlTable = ({ sku, setSkus }) => {
         );
     };
 
+    const prixFournisseurTemplate = (item) => {
+
+        return item.prix_fournisseur ? <p>{item.prix_fournisseur}€</p> : null
+    };
+
 
     const show = (severity, summary, message) => {
         toast.current.show({ severity: severity, summary: summary, detail: message });
@@ -53,6 +58,7 @@ const UrlTable = ({ sku, setSkus }) => {
                 <Column sortable field="id" header="id / clé"></Column>
                 <Column sortable field="name" header="Référence"></Column>
                 <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
+                <Column sortable body={prixFournisseurTemplate} field="prix_fournisseur" header="Prix fournisseur (ref interne)"></Column>
                 <Column sortable body={actionTemplate} headerClassName="w-5rem" />
             </DataTable>
             <Dialog header="Supprimer" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
