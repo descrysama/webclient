@@ -59,7 +59,7 @@ const UrlTable = ({ sku, setSkus }) => {
                 <Column sortable field="name" header="Référence"></Column>
                 <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
                 <Column sortable body={prixFournisseurTemplate} field="prix_fournisseur" header="Prix fournisseur (ref interne)"></Column>
-                <Column sortable body={actionTemplate} headerClassName="w-5rem" />
+                <Column sortable header="Actions" body={actionTemplate} headerClassName="w-5rem" />
             </DataTable>
             <Dialog header="Supprimer" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
                 <div className='flex flex-col justify-center items-start gap-2'>
