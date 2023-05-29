@@ -5,6 +5,7 @@ import { Dialog } from 'primereact/dialog';
 import { fetchAllSku, SearchSku, createSku } from '../services/skuService';
 import { runCompetitorScript } from '../services/scriptService';
 import { Button } from 'primereact/button';
+import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 
@@ -14,6 +15,7 @@ const Competitors = () => {
   const toast = useRef(null);
   const [visible, setVisible] = useState(false);
   const [toggle, setToggle] = useState(true);
+  const [toggleInput, setToggleinput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [skuName, setSkuName] = useState("");
   const [prixFournisseur, setPrixFournisseur] = useState("");
@@ -33,7 +35,7 @@ const Competitors = () => {
 
   const onSubmit = () => {
     let newPrice = 0;
-    if(prixFournisseur) {
+    if(prixFournisseur && toggleInput) {
       if(prixFournisseur.includes(',')) {
         newPrice = prixFournisseur.replace(',', '.')
       } else {
@@ -107,7 +109,7 @@ const Competitors = () => {
         <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setVisible(true)}/>
       </div>
       <form onSubmit={(e) => onSearch(e)}>
-        <div className='flex m-4'>
+        <div className='flex m-4'> 
           <InputText value={query} onChange={(e) => setQuery(e.target.value)} placeholder='A2221-ECN' className='min-w-[280px]'/>
           <Button style={{margin: '3px'}} label="Rechercher" icon="pi pi-search" iconPos="right" onClick={(e) => onSearch(e)}/>
           {query ? <Button style={{margin: '3px'}}  icon="pi pi-undo" iconPos="right" onClick={() => clearSearch()}/> : null}
@@ -119,7 +121,8 @@ const Competitors = () => {
       <Dialog header="Ajouter un SKU" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
         <div className='flex flex-col justify-center items-start gap-2'>
           <InputText value={skuName} onChange={(e) => setSkuName(e.target.value)} placeholder='A2221-ECN'/>
-          <InputText value={prixFournisseur} onChange={(e) => setPrixFournisseur(e.target.value)} placeholder='74.44'/>
+          {toggleInput ? <InputText value={prixFournisseur} onChange={(e) => setPrixFournisseur(e.target.value)} placeholder='74.44'/> : null}
+          <ToggleButton onLabel="Référence interne" offLabel="Référence externe" checked={toggleInput} onChange={(e) => setToggleinput(e.value)} />
           <div>
             <Button style={{marginTop: '3px', marginRight: '5px'}} label="Annuler" icon="pi pi-times" iconPos="right" severity="danger" onClick={() => setVisible(false)}/>
             <Button style={{marginTop: '3px'}} label="Ajouter" icon="pi pi-pi-add" iconPos="right" severity="success" onClick={() => {

@@ -17,6 +17,7 @@ const EditSku = () => {
         id: "",
         name: "",
         prix_fournisseur: updatePrice,
+        internal_ref: false,
         urls: []
     });
 
@@ -84,11 +85,13 @@ const EditSku = () => {
         <div className='gap-2 flex flex-col items-center'>
             <Link to="/competitors"><Button label="Retour" icon="pi pi-arrow-circle-left" severity="success" iconPos="left"/></Link>
             <Button label="Ajouter un url" icon="pi pi-plus" iconPos="right" onClick={() => addUrl()}/>
-            {toggleInput ? 
-            <form onSubmit={(e) => updatePriceSubmit(e)}>
-                <InputText value={sku.prix_fournisseur} onChange={(e) => setSku({...sku, prix_fournisseur: e.target.value})} placeholder='16.99' className='w-full m-4'/>
-            </form>
-            : <Tag onClick={() => setToggleinput(!toggleInput)} value={sku.prix_fournisseur +"€"} rounded></Tag>}
+            {sku.internal_ref ? 
+            toggleInput? 
+                <form onSubmit={(e) => updatePriceSubmit(e)}>
+                    <InputText value={sku.prix_fournisseur} onChange={(e) => setSku({...sku, prix_fournisseur: e.target.value})} placeholder='16.99' className='w-full m-4'/>
+                </form>
+                : <Tag onClick={() => setToggleinput(!toggleInput)} value={sku.prix_fournisseur +"€"} rounded></Tag> : null}
+            
         </div>
         <div className='flex m-4'>
             <InputText value={sku.name} onChange={(e) => setSku({...sku, name: e.target.value})} placeholder='A2221-ECN' className='min-w-[280px]'/>
