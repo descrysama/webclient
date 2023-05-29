@@ -29,7 +29,7 @@ const Login = () => {
       if(res.boolean) {
         console.log(res)
         show("success", "success", res.message)
-        setTimeout(navigate("/competitors"), 2000)
+        window.location.reload()
       } else {
         show("error", "Error", res.message)
       }

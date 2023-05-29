@@ -32,7 +32,17 @@ const Competitors = () => {
   }, [])
 
   const onSubmit = () => {
-    createSku({name: skuName, prix_fournisseur: prixFournisseur || null}).then((res) => {
+    let newPrice = 0;
+    if(prixFournisseur) {
+      if(prixFournisseur.includes(',')) {
+        newPrice = prixFournisseur.replace(',', '.')
+      } else {
+        newPrice = prixFournisseur
+      }
+    } else {
+      newPrice = null
+    }
+    createSku({name: skuName, prix_fournisseur: newPrice || null}).then((res) => {
       if (res.message) {
         show("success", "Success", res.message)
       }
