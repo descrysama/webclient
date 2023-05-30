@@ -26,15 +26,16 @@ const Suppliers = () => {
     const [loading, setLoading] = useState(false);
     const [mobilax, setMobilax] = useState([]);
     const [utopya, setUtopya] = useState([]);
-    const [input, setInput] = useState([]);
+    const [input, setInput] = useState("");
+    const [inputTitle, setInputTitle] = useState("");
 
     const show = (severity, summary, message) => {
         toast.current.show({ severity: severity, summary: summary, detail: message });
     };
 
     const fetchData = () => {
-        getMobilaxLinks().then((res) => setMobilax(res))
-        getUtopyaLinks().then((res) => setUtopya(res))
+        getMobilaxLinks().then((res) => setMobilax(res.reverse()))
+        getUtopyaLinks().then((res) => setUtopya(res.reverse()))
     }
 
     const onDelete = (id) => {
@@ -80,14 +81,14 @@ const Suppliers = () => {
 
     const onSubmit = () => {
         if (visible) {
-            createUtopyaLink(input).then((res) => {
+            createUtopyaLink({url : input, title: inputTitle}).then((res) => {
                 setInput('')
                 if (res) {
                     fetchData()
                 }
             })
         } else {
-            createMobilaxLink(input).then((res) => {
+            createMobilaxLink({url : input, title: inputTitle}).then((res) => {
                 setInput('')
                 if (res) {
                     fetchData()
@@ -128,13 +129,15 @@ const Suppliers = () => {
                         <Button label="Ajouter" icon="pi pi-plus" iconPos="right" onClick={() => setToggleModal(true)} />
                     </div>
                     <div className='flex flex-col w-full justify-center items-center mt-4'>
-                        <DataTable className={visible ? "visible w-[80%]" : 'hidden'} removableSort value={utopya} tableStyle={{ Width: '50rem' }}>
+                        <DataTable paginator rows={15} className={visible ? "visible w-[80%]" : 'hidden'} removableSort value={utopya} tableStyle={{ Width: '50rem' }}>
                             <Column sortable field="id" header="id / clé"></Column>
+                            <Column sortable field="title" header="Title" className='max-w-[400px] truncate'></Column>
                             <Column sortable field="url" header="URL" className='max-w-[400px] truncate'></Column>
                             <Column sortable header="Actions" body={actionTemplate} headerClassName="w-5rem" />
                         </DataTable>
-                        <DataTable className={!visible ? "visible w-[80%]" : 'hidden'} removableSort value={mobilax} tableStyle={{ Width: '50rem' }}>
+                        <DataTable paginator rows={15} className={!visible ? "visible w-[80%]" : 'hidden'} removableSort value={mobilax} tableStyle={{ Width: '50rem' }}>
                             <Column sortable field="id" header="id / clé"></Column>
+                            <Column sortable field="title" header="Title" className='max-w-[400px] truncate'></Column>
                             <Column sortable field="url" header="URL" className='max-w-[400px] truncate'></Column>
                             <Column sortable header="Actions" body={actionTemplate} headerClassName="w-5rem" />
                         </DataTable>
@@ -142,7 +145,8 @@ const Suppliers = () => {
                 </div>
                 <Dialog header={"Ajouter un URL pour " + (visible ? 'Utopya' : 'Mobilax')} visible={toggleModal} style={{ width: '30vw' }} onHide={() => setToggleModal(false)}>
                     <div className='flex flex-col justify-center items-start gap-2'>
-                        <InputText value={input} onChange={(e) => setInput(e.target.value)} placeholder='http://le-site-cible.com/hihi-destruction' />
+                        <InputText value={inputTitle} onChange={(e) => setInputTitle(e.target.value)} className="w-full" placeholder='Titre' />
+                        <InputText value={input} onChange={(e) => setInput(e.target.value)} className="w-full" placeholder='http://le-site-cible.com/hihi-destruction' />
                         <div>
                             <Button style={{ marginTop: '3px', marginRight: '5px' }} label="Annuler" icon="pi pi-times" iconPos="right" severity="danger" onClick={() => setToggleModal(false)} />
                             <Button style={{ marginTop: '3px' }} label="Ajouter" icon="pi pi-pi-add" iconPos="right" severity="success" onClick={() => {

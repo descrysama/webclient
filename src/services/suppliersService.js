@@ -34,7 +34,7 @@ export const deleteUtopyaLink = async(id) => {
 }
 
 
-export const createUtopyaLink = async(url) => {
+export const createUtopyaLink = async(body) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/utopya/create/`, {
           method: 'POST',
@@ -42,7 +42,7 @@ export const createUtopyaLink = async(url) => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ url: url })
+          body: JSON.stringify({ url: body.url, title: body.title })
         });
     
         if (response.ok) {
@@ -56,7 +56,7 @@ export const createUtopyaLink = async(url) => {
       }
 }
 
-export const createMobilaxLink = async(url) => {
+export const createMobilaxLink = async(body) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/mobilax/create/`, {
           method: 'POST',
@@ -64,7 +64,7 @@ export const createMobilaxLink = async(url) => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ url: url })
+          body: JSON.stringify({ url: body.url, title: body.title })
         });
     
         if (response.ok) {
