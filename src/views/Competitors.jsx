@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import UrlTable from '../components/UrlTable'
 import { useEffect, useState, useRef } from 'react'
 import { Dialog } from 'primereact/dialog';
-import { fetchAllSku, SearchSku, createSku } from '../services/skuService';
+import { SearchSku, createSku } from '../services/skuService';
 import { runCompetitorScript } from '../services/scriptService';
 import { Button } from 'primereact/button';
 import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 
+import { appContext } from '../App';
+
 const Competitors = () => {
 
-  const [sku, setSkus] = useState();
+  const [sku, setSkus] = useState(useContext(appContext).competitorLinksArray);
   const toast = useRef(null);
   const [visible, setVisible] = useState(false);
   const [toggle, setToggle] = useState(true);
@@ -21,17 +23,12 @@ const Competitors = () => {
   const [prixFournisseur, setPrixFournisseur] = useState("");
   const [query, setQuery] = useState("");
 
-  const fetchData = () => {
-    fetchAllSku().then((res) => setSkus(res.reverse()))
-  }
 
   const show = (severity, summary, message) => {
       toast.current.show({ severity: severity, summary: summary, detail: message });
   };
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useEffect(() => console.log())
 
   const onSubmit = () => {
     let newPrice = 0;
@@ -52,9 +49,9 @@ const Competitors = () => {
         show("error", "Error", res.error)
       }
       setSkuName('')
-      if(res) {
-        fetchData()
-      }
+      // if(res) {
+      //   fetchData()
+      // }
     })
   }
 

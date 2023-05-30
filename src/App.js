@@ -8,6 +8,7 @@ import Login from "./views/Login";
 import Competitors from "./views/Competitors";
 import EditSku from "./views/competitors/EditSku";
 import Suppliers from "./views/Suppliers";
+import { fetchAllSku } from "./services/skuService";
 
 
 export const appContext = createContext(null);
@@ -15,15 +16,31 @@ export const appContext = createContext(null);
 function App() {
 
   const [loading, setLoading] = useState(true);
+  const [competitorLinksArray, setCompetitorLinksArray] = useState('');
   const [userStatus, setUserStatus] = useState({
     connected: false,
     status: ""
   })
 
+  const FreshArray = (item) => {
+    let copyArray = [...competitorLinksArray];
+    let index = copyArray.findIndex(object => {
+      return item.id === object.id
+    })
+    console.log(item)
+    console.log(index)
+    copyArray.splice(index, 1, item)
+    setCompetitorLinksArray(copyArray)
+  }
+
   useEffect(() => {
     checkAuth().then(() => {
-      setLoading(false)
+      fetchAllSku().then((res) => {
+        setLoading(false)
+        setCompetitorLinksArray(res)
+      })
     });
+    
   }, [])
   
   const checkAuth = async() => {
@@ -36,22 +53,23 @@ function App() {
   
   const appContextContent = {
     connected: userStatus.connected,
-    checkAuth
+    competitorLinksArray,
+    checkAuth,
+    FreshArray
   };
 
   return (
-    !loading ? 
     <appContext.Provider value={appContextContent}>
         <BrowserRouter>
         <ProtectedRoute><NavbarComponent/></ProtectedRoute>
           <Routes>
             <Route path="/" element={<ProtectLogin><Login /></ProtectLogin> } />
-            <Route path="/competitors" element={<ProtectedRoute><Competitors /></ProtectedRoute>} />
+            {!loading ? <Route path="/competitors" element={<ProtectedRoute><Competitors /></ProtectedRoute>} /> : null}
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/sku/edit/:SkuId" element={<EditSku />} />
           </Routes>
         </BrowserRouter>
-    </appContext.Provider> : null
+    </appContext.Provider>
   );
 }
 

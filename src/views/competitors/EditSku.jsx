@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { getSingleSku, updateSku } from '../../services/skuService'
 import { deleteLink } from '../../services/linksService';
@@ -6,9 +6,11 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
+import { appContext } from '../../App';
 
 const EditSku = () => {
 
+    const context = useContext(appContext)  
     const toast = useRef(null);
     let { SkuId } = useParams();
     const [toggleInput, setToggleinput] = useState(false);
@@ -44,6 +46,7 @@ const EditSku = () => {
         updateSku(SkuId, sku).then((res) => {
             if(res) {
                 fetchData()
+                context.FreshArray(sku)
                 show("success", "Success", sku.name + " mis à jour avec succès")
             }
         })
@@ -52,7 +55,6 @@ const EditSku = () => {
     const updateUrl = (url , index) => {
         const newUrls = sku.urls
         newUrls[index] = {...newUrls[index], url}
-        console.log({...sku, urls: [...newUrls]})
         setSku({...sku, urls: [...newUrls]})
     }
 
@@ -82,7 +84,7 @@ const EditSku = () => {
   return (
     <div className='flex flex-col w-full justify-center items-center h-auto mt-[50px]'>
         <Toast ref={toast} />
-        <div className='gap-2 flex flex-col items-center'>
+        <div className='gap-2 flex items-center'>
             <Link to="/competitors"><Button label="Retour" icon="pi pi-arrow-circle-left" severity="success" iconPos="left"/></Link>
             <Button label="Ajouter un url" icon="pi pi-plus" iconPos="right" onClick={() => addUrl()}/>
             {sku.internal_ref ? 

@@ -54,7 +54,7 @@ const UrlTable = ({ sku, setSkus }) => {
         sku ?
         <>
             <Toast ref={toast} />
-            <DataTable removableSort value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
+            <DataTable paginator rows={15} removableSort value={sku} tableStyle={{ Width: '50rem' }} className='w-[80%]'>
                 <Column sortable field="id" header="id / clé"></Column>
                 <Column sortable field="name" header="Référence"></Column>
                 <Column sortable header="Nombre d'urls" body={(item) => <>{item.urls ? item.urls.length : null}</>} headerClassName="w-5rem" />
