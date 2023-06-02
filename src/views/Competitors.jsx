@@ -8,11 +8,13 @@ import { Button } from 'primereact/button';
 import { ToggleButton } from 'primereact/togglebutton';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-
 import { appContext } from '../App';
 
-const Competitors = () => {
 
+
+const Competitors = () => {
+  
+  const context = useContext(appContext)  
   const [sku, setSkus] = useState(useContext(appContext).competitorLinksArray);
   const toast = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -44,6 +46,7 @@ const Competitors = () => {
     createSku({name: skuName, prix_fournisseur: newPrice || null, internal_ref: newPrice ? 1 : 0}).then((res) => {
       if (res.message) {
         show("success", "Success", res.message)
+        context.addToArray({id: sku.length, name: skuName, prix_fournisseur: newPrice || null, internal_ref: newPrice ? 1 : 0})
       }
       if(res.error) {
         show("error", "Error", res.error)

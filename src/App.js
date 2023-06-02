@@ -33,6 +33,17 @@ function App() {
     setCompetitorLinksArray(copyArray)
   }
 
+  const addToArray = (item) => {
+    let copyArray = [...competitorLinksArray];
+    let index = copyArray.findIndex(object => {
+      return item.id === object.id
+    })
+    console.log(item)
+    console.log(index)
+    copyArray.unshift(item)
+    setCompetitorLinksArray(copyArray)
+  }
+
   useEffect(() => {
     checkAuth().then(() => {
       fetchAllSku().then((res) => {
@@ -55,7 +66,8 @@ function App() {
     connected: userStatus.connected,
     competitorLinksArray,
     checkAuth,
-    FreshArray
+    FreshArray,
+    addToArray
   };
 
   return (
