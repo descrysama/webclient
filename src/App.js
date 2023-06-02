@@ -37,7 +37,7 @@ function App() {
     checkAuth().then(() => {
       fetchAllSku().then((res) => {
         setLoading(false)
-        setCompetitorLinksArray(res)
+        setCompetitorLinksArray(res.reverse())
       })
     });
     
