@@ -44,9 +44,9 @@ const Competitors = () => {
       newPrice = null
     }
     createSku({name: skuName, prix_fournisseur: newPrice || null, internal_ref: newPrice ? 1 : 0}).then((res) => {
-      if (res.message) {
+      if (!res.error) {
         show("success", "Success", res.message)
-        context.addToArray({id: sku.length, name: skuName, prix_fournisseur: newPrice || null, internal_ref: newPrice ? 1 : 0})
+        context.addToArray(res)
       }
       if(res.error) {
         show("error", "Error", res.error)
