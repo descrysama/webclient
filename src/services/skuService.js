@@ -62,11 +62,10 @@ export const createSku = async (body) => {
       body: JSON.stringify(body)
     });
 
-    if (response.ok) {
-      return true;
-    } else {
-      throw new Error('Failed to create SKU');
-    }
+    const responseJsoned = response.json()
+
+    return responseJsoned
+    
   } catch (error) {
     console.error(error);
     return false;
