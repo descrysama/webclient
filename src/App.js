@@ -35,13 +35,8 @@ function App() {
 
   const addToArray = (item) => {
     let copyArray = [...competitorLinksArray];
-    let index = copyArray.findIndex(object => {
-      return item.id === object.id
-    })
-    console.log(item)
-    console.log(index)
-    copyArray.unshift(item)
-    setCompetitorLinksArray(copyArray)
+    copyArray.unshift(item);
+    setCompetitorLinksArray(copyArray);
   }
 
   useEffect(() => {
