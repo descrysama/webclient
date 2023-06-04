@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
+import { appContext } from '../App';
 
 import { deleteSku } from '../services/skuService';
 import { Link } from 'react-router-dom';
@@ -11,16 +12,16 @@ import { Link } from 'react-router-dom';
 const UrlTable = ({ sku, setSkus }) => {
 
     const toast = useRef(null);
+    const context = useContext(appContext)  
     const [visible, setVisible] = useState(false);
     const [skuToDelete, setSkuToDelete] = useState();
 
 
     const onDelete = (id) => {
-        console.log(id)
         deleteSku(id).then((res) => {
             if (res) {
                 const newSku = sku.filter(sku => sku.id != id);
-                setSkus(newSku)
+                context.fullRefreshArray(newSku)
                 show("success", "Success", "Sku supprimé avec succès")
             }
         })

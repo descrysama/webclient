@@ -12,10 +12,10 @@ import { appContext } from '../App';
 
 
 
-const Competitors = () => {
+const Competitors = ({skuUpdate}) => {
   
   const context = useContext(appContext)  
-  const [sku, setSkus] = useState(useContext(appContext).competitorLinksArray);
+  const [sku, setSkus] = useState(skuUpdate);
   const toast = useRef(null);
   const [visible, setVisible] = useState(false);
   const [toggle, setToggle] = useState(true);
@@ -25,12 +25,9 @@ const Competitors = () => {
   const [prixFournisseur, setPrixFournisseur] = useState("");
   const [query, setQuery] = useState("");
 
-
   const show = (severity, summary, message) => {
       toast.current.show({ severity: severity, summary: summary, detail: message });
   };
-
-  useEffect(() => console.log())
 
   const onSubmit = () => {
     let newPrice = 0;
@@ -52,9 +49,6 @@ const Competitors = () => {
         show("error", "Error", res.error)
       }
       setSkuName('')
-      // if(res) {
-      //   fetchData()
-      // }
     })
   }
 
@@ -116,7 +110,7 @@ const Competitors = () => {
         </div>
       </form>
       <div className='flex justify-center mt-5 w-full'>
-          {sku ? <UrlTable sku={sku} setSkus={setSkus}/> : null}
+          {sku ? <UrlTable sku={skuUpdate} setSkus={setSkus}/> : null}
       </div>
       <Dialog header="Ajouter un SKU" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
         <div className='flex flex-col justify-center items-start gap-2'>

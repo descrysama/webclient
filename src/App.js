@@ -22,6 +22,10 @@ function App() {
     status: ""
   })
 
+  const fullRefreshArray = (copyArray) => {
+    setCompetitorLinksArray(copyArray)
+  }
+
   const FreshArray = (item) => {
     let copyArray = [...competitorLinksArray];
     let index = copyArray.findIndex(object => {
@@ -62,7 +66,8 @@ function App() {
     competitorLinksArray,
     checkAuth,
     FreshArray,
-    addToArray
+    addToArray,
+    fullRefreshArray
   };
 
   return (
@@ -71,7 +76,7 @@ function App() {
         <ProtectedRoute><NavbarComponent/></ProtectedRoute>
           <Routes>
             <Route path="/" element={<ProtectLogin><Login /></ProtectLogin> } />
-            {!loading ? <Route path="/competitors" element={<ProtectedRoute><Competitors /></ProtectedRoute>} /> : null}
+            {!loading ? <Route path="/competitors" element={<ProtectedRoute><Competitors skuUpdate={appContextContent.competitorLinksArray} /></ProtectedRoute>} /> : null}
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/sku/edit/:SkuId" element={<EditSku />} />
           </Routes>
