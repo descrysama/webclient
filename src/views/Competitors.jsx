@@ -56,6 +56,7 @@ const Competitors = ({skuUpdate}) => {
     e.preventDefault()
     SearchSku(query).then((res) => {
       if(res) {
+        context.fullRefreshArray(res)
         setSkus(res)
       }
     })
