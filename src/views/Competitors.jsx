@@ -66,7 +66,7 @@ const Competitors = ({skuUpdate}) => {
     SearchSku("").then((res) => {
       setQuery('')
       if(res) {
-        context.fullRefreshArray(res)
+        context.fullRefreshArray(res.reverse())
         setSkus(res)
       }
     })
